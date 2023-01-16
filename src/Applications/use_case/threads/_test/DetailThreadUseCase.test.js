@@ -30,9 +30,25 @@ describe('DetailThreadUseCase', () => {
     mockThreadRepository.verifyAvailableIdThread = jest.fn()
       .mockImplementation(() => Promise.resolve())
     mockCommentRepository.getCommentsByThreadId = jest.fn()
-      .mockImplementation(() => Promise.resolve(mockListComment))
+      .mockImplementation(() => Promise.resolve(
+        [
+          new ListComment({
+            id: 'comment-123',
+            content: 'sebuah comment',
+            username: 'dicoding',
+            created_at: '2021-08-09T07:19:09.775Z',
+            is_deleted: true,
+          })
+        ]
+      ))
     mockThreadRepository.getDetailThread = jest.fn()
-      .mockImplementation(() => Promise.resolve(mockDetailThread))
+      .mockImplementation(() => Promise.resolve(new DetailThread({
+        id: 'thread-123',
+        title: 'sebuah thread',
+        body: 'body sebuah thread',
+        username: 'dicoding',
+        created_at: '2021-08-09T07:19:09.775Z',
+      })))
 
     const detailThreadUseCase = new DetailThreadUseCase({
       commentRepository: mockCommentRepository,

@@ -58,7 +58,7 @@ describe('ThreadRepositoryPostgres', () => {
       it('should not throw NotFoundError when id exist', async () => {
         // Arrange
         await UsersTableTestHelper.addUser({ id: 'user-123', username: 'dicoding' })
-        await ThreadsTableTestHelper.addThread({ id: 'thread-123' }) // memasukan thread baru dengan id thread-123
+        await ThreadsTableTestHelper.addThread({ id: 'thread-123' })
         const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {})
 
         // Action & Assert
@@ -79,13 +79,16 @@ describe('ThreadRepositoryPostgres', () => {
     it('should persis get detail thread correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({ id: 'user-123', username: 'dicoding' })
-      await ThreadsTableTestHelper.addThread({ id: 'thread-123', owner: 'user-123' }) // memasukan thread baru dengan id thread-123
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123', owner: 'user-123' })
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {})
 
       // Action
       const thread = await threadRepositoryPostgres.getDetailThread('thread-123')
       // Arrange
       expect(thread.id).toEqual('thread-123')
+      expect(thread.title).toEqual('example')
+      expect(thread.body).toEqual('example')
+      expect(thread.date).toEqual('2022-12-17T07:19:09.775Z')
       expect(thread.username).toEqual('dicoding')
     })
   })
